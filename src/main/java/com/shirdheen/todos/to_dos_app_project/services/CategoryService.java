@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.shirdheen.todos.to_dos_app_project.dto.DTOMapper;
 import com.shirdheen.todos.to_dos_app_project.dto.category.CategoryDTO;
+import com.shirdheen.todos.to_dos_app_project.dto.category.CategoryRequestDTO;
+import com.shirdheen.todos.to_dos_app_project.entities.Category;
 import com.shirdheen.todos.to_dos_app_project.repositories.CategoryRepository;
 
 @Service
@@ -19,6 +21,23 @@ public class CategoryService {
 
     public List<CategoryDTO> getAllCategories() {
         return categoryRepository.findAll().stream().map(DTOMapper::toCategoryDTO).collect(Collectors.toList());
+    }
+
+    public CategoryDTO createCategory(CategoryRequestDTO request) {
+        Category category = new Category();
+        category.setName(request.getName());
+
+        Category savedCategory = categoryRepository.save(category);
+        return DTOMapper.toCategoryDTO(savedCategory);
+    }
+
+    public CategoryDTO updateCategory(Long id, CategoryRequestDTO request) {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Sorry, category not found"));
+
+        category.setName(request.getName());
+        Category updatedCategory = categoryRepository.save(category);
+
+        return DTOMapper.toCategoryDTO(updatedCategory);
     }
 
 }

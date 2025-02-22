@@ -8,7 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shirdheen.todos.to_dos_app_project.dto.category.CategoryDTO;
+import com.shirdheen.todos.to_dos_app_project.dto.category.CategoryRequestDTO;
 import com.shirdheen.todos.to_dos_app_project.services.CategoryService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+
 
 @RestController
 @RequestMapping("/categories")
@@ -26,5 +33,19 @@ public class CategoryController {
         return ResponseEntity.ok(categories);
 
     }
+
+    @PostMapping()
+    public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryRequestDTO request) {
+        CategoryDTO newCategory = categoryService.createCategory(request);
+        return ResponseEntity.ok(newCategory);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, @RequestBody CategoryRequestDTO request) {
+        CategoryDTO updatedCategory = categoryService.updateCategory(id, request);
+        return ResponseEntity.ok(updatedCategory);
+    }
+
+    
 
 }
