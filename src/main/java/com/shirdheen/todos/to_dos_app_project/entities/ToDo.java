@@ -37,4 +37,11 @@ public class ToDo {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    public ToDo(String taskName, Category category) {
+        this.taskName = taskName;
+        this.category = category;
+        this.isCompleted = false;
+        this.isArchived = false;
+    }
+
 }

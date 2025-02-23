@@ -20,7 +20,7 @@ public class CategoryService {
     }
 
     public List<CategoryDTO> getAllCategories() {
-        return categoryRepository.findAll().stream().map(DTOMapper::toCategoryDTO).collect(Collectors.toList());
+        return categoryRepository.findAllByOrderByIdAsc().stream().map(DTOMapper::toCategoryDTO).collect(Collectors.toList());
     }
 
     public CategoryDTO createCategory(CategoryRequestDTO request) {
@@ -32,12 +32,20 @@ public class CategoryService {
     }
 
     public CategoryDTO updateCategory(Long id, CategoryRequestDTO request) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Sorry, category not found"));
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sorry, category not found"));
 
         category.setName(request.getName());
         Category updatedCategory = categoryRepository.save(category);
 
         return DTOMapper.toCategoryDTO(updatedCategory);
+    }
+
+    public void deleteCategory(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sorry, category not found"));
+
+        categoryRepository.delete(category);
     }
 
 }
