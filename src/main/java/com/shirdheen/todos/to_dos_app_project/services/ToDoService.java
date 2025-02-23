@@ -23,11 +23,11 @@ public class ToDoService {
     }
 
     public List<ToDoDTO> getAllTodos() {
-        return todoRepository.findByArchivedFalse().stream().map(DTOMapper::toToDoDTO).collect(Collectors.toList());
+        return todoRepository.findByIsArchivedFalse().stream().map(DTOMapper::toToDoDTO).collect(Collectors.toList());
     }
 
     public List<ToDoDTO> getTodosByCategory(Long categoryId) {
-        return todoRepository.findByCategoryIdAndArchivedFalse(categoryId).stream().map(DTOMapper::toToDoDTO)
+        return todoRepository.findByCategoryIdAndIsArchivedFalse(categoryId).stream().map(DTOMapper::toToDoDTO)
                 .collect(Collectors.toList());
     }
 
@@ -61,6 +61,14 @@ public class ToDoService {
 
         todo.setArchived(true);
         todoRepository.save(todo);
+    }
+
+    public List<ToDoDTO> getArchivedTodos() {
+        return todoRepository.findByIsArchivedTrue().stream().map(DTOMapper::toToDoDTO).collect(Collectors.toList());
+    }
+
+    public List<ToDoDTO> getArchivedTodosByCategory(Long categoryId) {
+        return todoRepository.findByCategoryIdAndIsArchivedTrue(categoryId).stream().map(DTOMapper::toToDoDTO).collect(Collectors.toList());
     }
 
 }
