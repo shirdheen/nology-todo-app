@@ -4,6 +4,7 @@ import {
   updateCategory,
 } from "../../services/category-service";
 import styles from "./Category.module.scss";
+import ReactDOM from "react-dom";
 
 interface ModalProps {
   category: { id: number; name: string };
@@ -30,7 +31,7 @@ const CategoryModal = ({
     onClose();
   };
 
-  return (
+  return ReactDOM.createPortal(
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
         <h3 className={styles.modalHeading}>Edit Category</h3>
@@ -52,7 +53,8 @@ const CategoryModal = ({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

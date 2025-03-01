@@ -8,9 +8,11 @@ const Categories = () => {
     []
   );
   const [newCategory, setNewCategory] = useState("");
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     fetchCategories();
+    setIsMounted(true);
   }, []);
 
   const fetchCategories = async () => {
@@ -28,7 +30,11 @@ const Categories = () => {
   };
 
   return (
-    <div className={styles.categoriesContainer}>
+    <div
+      className={`${styles.categoriesContainer} ${
+        isMounted ? styles.fadeInCont : ""
+      }`}
+    >
       <h2 className={styles.heading}>Categories</h2>
       <div className={styles.categoryButtons}>
         {categories.map((category) => (
