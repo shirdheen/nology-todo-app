@@ -10,6 +10,7 @@ import com.shirdheen.todos.to_dos_app_project.services.ToDoService;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/todos")
 public class ToDoController {
