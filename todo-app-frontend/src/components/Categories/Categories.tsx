@@ -53,7 +53,12 @@ const Categories = () => {
           value={newCategory}
           onChange={(e) => setNewCategory(e.target.value)}
         />
-        <button onClick={handleAddCategory}>Add</button>
+        <button
+          className={styles.categoryAddButton}
+          onClick={handleAddCategory}
+        >
+          Add
+        </button>
       </div>
     </div>
   );

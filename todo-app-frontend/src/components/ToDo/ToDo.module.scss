@@ -1,0 +1,165 @@
+@keyframes fadeInForm {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInCont {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.todoListContainer {
+  opacity: 0;
+  animation: fadeInCont 0.5s ease-in-out forwards;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.heading {
+  font-family: "Nunito";
+  color: #2c3e50;
+}
+
+.todoFormContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  animation: fadeInForm 0.5s ease-in-out;
+  width: 80%;
+  .todoInput {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #2c3e50;
+    border-radius: 20px;
+    font-style: italic;
+    font-size: 1rem;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    color: #2c3e50;
+    font-family: "Inter";
+    &:focus {
+      border-color: #4a90e2;
+      box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+      outline: none;
+    }
+  }
+
+  .categorySelect {
+    padding: 12px;
+    border: 1px solid #2c3e50;
+    border-radius: 10px;
+    font-family: "Inter";
+    font-size: 1rem;
+    background-color: #fff;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: border-color 0.3s ease-in-out;
+    &:focus {
+      border-color: #4a90e2;
+      outline: none;
+    }
+  }
+
+  .addButton {
+    background-color: #2c3e50;
+    color: #f5f7fa;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: "Nunito";
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease-in-out, transform 0.2 ease-in-out;
+    &:hover {
+      background-color: #4a90e2;
+      transform: scale(1.05);
+    }
+  }
+}
+
+.todoItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 50%;
+  background: #4a90e2;
+  padding: 10px 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, background-color 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  .taskName {
+    font-family: "Nunito";
+    font-size: 1rem;
+    font-weight: bold;
+    color: #f5f7fa;
+  }
+
+  .category {
+    font-family: "Inter";
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #4a90e2;
+    padding: 5px 10px;
+    border-radius: 15px;
+    background-color: #dfeeff;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.2s ease-in-out;
+
+      &:hover {
+        transform: scale(1.2);
+      }
+
+      &.edit {
+        background-color: #f1c40f;
+        color: #2c3e50;
+        border: none;
+        padding: 5px 7.5px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: "Nunito";
+        font-weight: bold;
+      }
+
+      &.archive {
+        background-color: #e74c3c;
+        color: #f5f7fa;
+        border: none;
+        padding: 5px 7.5px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: "Nunito";
+        font-weight: bold;
+      }
+    }
+  }
+}
