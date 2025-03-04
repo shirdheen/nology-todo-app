@@ -3,18 +3,29 @@ import styles from "./ToDo.module.scss";
 import ReactDOM from "react-dom";
 
 interface TodoModalProps {
-  todo: { id: number; taskName: string; categoryId: number };
+  todo: {
+    id: number;
+    taskName: string;
+    categoryId: number;
+    completed: boolean;
+  };
   categories: { id: number; name: string }[];
   onClose: () => void;
-  onUpdate: (id: number, taskName: string, categoryId: number) => void;
+  onUpdate: (
+    id: number,
+    taskName: string,
+    categoryId: number,
+    completed: boolean
+  ) => void;
 }
 
 const TodoModal = ({ todo, categories, onClose, onUpdate }: TodoModalProps) => {
   const [taskName, setTaskName] = useState(todo.taskName);
   const [categoryId, setCategoryId] = useState(todo.categoryId);
+  const [completed, setcompleted] = useState(todo.completed ?? false);
 
   const handleSave = () => {
-    onUpdate(todo.id, taskName, categoryId);
+    onUpdate(todo.id, taskName, categoryId, completed);
     onClose();
   };
 
@@ -38,6 +49,18 @@ const TodoModal = ({ todo, categories, onClose, onUpdate }: TodoModalProps) => {
             </option>
           ))}
         </select>
+
+        <div>
+          <label className={styles.completedLabel}>
+            <input
+              type="checkbox"
+              checked={completed}
+              onChange={(e) => setcompleted(e.target.checked)}
+              className={styles.todoCheckboxModal}
+            />
+            Mark as completed
+          </label>
+        </div>
         <div className={styles.todoModalActions}>
           <button onClick={handleSave} className={styles.saveButton}>
             Save

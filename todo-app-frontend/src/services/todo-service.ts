@@ -30,7 +30,8 @@ export const createTodo = async (taskName: string, categoryId: number) => {
 export const updateTodo = async (
   id: number,
   taskName: string,
-  categoryId: number
+  categoryId: number,
+  completed: boolean
 ) => {
   try {
     const response = await fetch(`${API_URL}/${id}`, {
@@ -38,7 +39,7 @@ export const updateTodo = async (
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ taskName, categoryId }),
+      body: JSON.stringify({ taskName, categoryId, completed }),
     });
 
     if (!response.ok) throw new Error("Failed to update todo");

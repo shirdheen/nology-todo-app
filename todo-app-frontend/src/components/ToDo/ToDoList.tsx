@@ -18,7 +18,7 @@ const TodoList = () => {
       id: number;
       taskName: string;
       category: { id: number; name: string };
-      isCompleted: boolean;
+      completed: boolean;
     }[]
   >([]);
 
@@ -34,9 +34,10 @@ const TodoList = () => {
   const handleUpdateTodo = async (
     id: number,
     taskName: string,
-    categoryId: number
+    categoryId: number,
+    completed: boolean
   ) => {
-    const updatedTodo = await updateTodo(id, taskName, categoryId);
+    const updatedTodo = await updateTodo(id, taskName, categoryId, completed);
     setTodos((prev) =>
       prev.map((todo) => (todo.id === id ? updatedTodo : todo))
     );
@@ -45,6 +46,11 @@ const TodoList = () => {
   const handleArchiveTodo = async (id: number) => {
     await archiveTodo(id);
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  };
+
+  const handleDuplicateTodo = async (taskName: string, categoryId: number) => {
+    const newTodo = await createTodo(taskName, categoryId);
+    setTodos((prev) => [...prev, newTodo]);
   };
 
   return (
@@ -58,6 +64,7 @@ const TodoList = () => {
           categories={categories}
           onArchive={handleArchiveTodo}
           onUpdate={handleUpdateTodo}
+          onDuplicate={handleDuplicateTodo}
         />
       ))}
     </div>
