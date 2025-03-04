@@ -32,13 +32,19 @@ const TodoForm = ({ onAddTodo, categories }: TodoFormProps) => {
       <input
         {...register("taskName", { required: "Task name is required" })}
         placeholder="Add todo here..."
-        className={styles.todoInput}
+        className={`${styles.todoInput} ${
+          errors.taskName ? styles.inputError : ""
+        }`}
       />
-      {errors.taskName && <span>{errors.taskName.message}</span>}
+      {errors.taskName && (
+        <span className={styles.errorMessage}>{errors.taskName.message}</span>
+      )}
 
       <select
         {...register("categoryId", { required: "Category is required" })}
-        className={styles.categorySelect}
+        className={`${styles.categorySelect} ${
+          errors.categoryId ? styles.inputError : ""
+        }`}
       >
         <option value="">Select Category</option>
         {categories.map((category) => (
@@ -47,7 +53,9 @@ const TodoForm = ({ onAddTodo, categories }: TodoFormProps) => {
           </option>
         ))}
       </select>
-      {errors.categoryId && <span>{errors.categoryId.message}</span>}
+      {errors.categoryId && (
+        <span className={styles.errorMessage}>{errors.categoryId.message}</span>
+      )}
 
       <button type="submit" className={styles.addButton}>
         Add

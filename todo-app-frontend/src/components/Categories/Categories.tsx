@@ -1,32 +1,21 @@
 import { useEffect, useState } from "react";
 import styles from "./Category.module.scss";
-import { addCategory, getCategories } from "../../services/category-service";
 import CategoryButton from "./CategoryButton";
+import { useCategoryContext } from "../../context/CategoryContext";
 
 const Categories = () => {
-  const [categories, setCategories] = useState<{ id: number; name: string }[]>(
-    []
-  );
+  const { categories, addNewCategory } = useCategoryContext();
   const [newCategory, setNewCategory] = useState("");
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    fetchCategories();
     setIsMounted(true);
   }, []);
 
-  const fetchCategories = async () => {
-    const data = await getCategories();
-    setCategories(data);
-  };
-
   const handleAddCategory = async () => {
     if (newCategory.trim() === "") return;
-    const addedCategory = await addCategory(newCategory);
-    if (addedCategory) {
-      setCategories([...categories, addedCategory]);
-      setNewCategory("");
-    }
+    await addNewCategory(newCategory);
+    setNewCategory("");
   };
 
   return (
@@ -38,11 +27,7 @@ const Categories = () => {
       <h2 className={styles.heading}>Categories</h2>
       <div className={styles.categoryButtons}>
         {categories.map((category) => (
-          <CategoryButton
-            key={category.id}
-            category={category}
-            onCategoryUpdated={fetchCategories}
-          />
+          <CategoryButton key={category.id} category={category} />
         ))}
       </div>
 

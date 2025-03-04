@@ -8,8 +8,11 @@ import {
 import TodoForm from "./ToDoForm";
 import TodoItem from "./ToDoItem";
 import styles from "./ToDo.module.scss";
+import { useCategoryContext } from "../../context/CategoryContext";
 
 const TodoList = () => {
+  const { categories } = useCategoryContext();
+
   const [todos, setTodos] = useState<
     {
       id: number;
@@ -18,15 +21,9 @@ const TodoList = () => {
       isCompleted: boolean;
     }[]
   >([]);
-  const [categories, setCategories] = useState<{ id: number; name: string }[]>(
-    []
-  );
 
   useEffect(() => {
     fetchTodos().then(setTodos);
-    fetch("http://localhost:8080/categories")
-      .then((res) => res.json())
-      .then(setCategories);
   }, []);
 
   const handleAddTodo = async (taskName: string, categoryId: number) => {

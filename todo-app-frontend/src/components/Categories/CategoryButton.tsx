@@ -1,14 +1,15 @@
 import { useState } from "react";
 import styles from "./Category.module.scss";
 import CategoryModal from "./CategoryModal";
+import { useCategoryContext } from "../../context/CategoryContext";
 
 interface CategoryProps {
   category: { id: number; name: string };
-  onCategoryUpdated: () => void;
 }
 
-const CategoryButton = ({ category, onCategoryUpdated }: CategoryProps) => {
+const CategoryButton = ({ category }: CategoryProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { refreshCategories } = useCategoryContext();
 
   return (
     <>
@@ -23,7 +24,7 @@ const CategoryButton = ({ category, onCategoryUpdated }: CategoryProps) => {
         <CategoryModal
           category={category}
           onClose={() => setIsModalOpen(false)}
-          onCategoryUpdated={onCategoryUpdated}
+          onCategoryUpdated={refreshCategories}
         />
       )}
     </>

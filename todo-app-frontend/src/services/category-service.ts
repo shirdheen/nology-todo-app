@@ -1,5 +1,10 @@
 const API_URL = "http://localhost:8080/categories";
 
+export const fetchCategories = async () => {
+  const response = await fetch(API_URL);
+  return response.json();
+};
+
 export const getCategories = async () => {
   try {
     const response = await fetch(API_URL);

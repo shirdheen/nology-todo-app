@@ -88,6 +88,32 @@
       transform: scale(1.05);
     }
   }
+
+  .errorMessage {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    font-family: "Inter";
+    font-weight: bold;
+    margin-top: 5px;
+    display: block;
+    animation: fadeInError 0.3s ease-in-out;
+  }
+
+  .inputError {
+    border-color: #e74c3c !important;
+    box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
+  }
+
+  @keyframes fadeInError {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 .todoItem {
@@ -161,5 +187,111 @@
         font-weight: bold;
       }
     }
+  }
+}
+
+.todoModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.todoModalContent {
+  width: 400px;
+  background: #f5f7fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  opacity: 0;
+  transform: translateY(-15px);
+  animation: slideIn 0.3s ease-in-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.todoModalHeading {
+  font-family: "Nunito";
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #2c3e50;
+  text-align: center;
+  margin: 0;
+}
+
+.todoModalInput,
+.todoModalSelect {
+  width: 80%;
+  padding: 10px;
+  border: 1px solid #2c3e50;
+  border-radius: 8px;
+  font-family: "Inter";
+  font-size: 1rem;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+  &:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+    outline: none;
+  }
+}
+
+.todoModalActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+
+  button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: "Nunito";
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  .saveButton {
+    background-color: #27ae60;
+    color: white;
+  }
+  .cancelButton {
+    background-color: #2c3e50;
+    color: white;
+    margin-left: 10px;
   }
 }
