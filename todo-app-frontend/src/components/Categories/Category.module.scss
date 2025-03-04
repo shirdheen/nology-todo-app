@@ -8,6 +8,18 @@
     transform: translateY(0);
   }
 }
+
+@keyframes fadeInError {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .categoriesContainer {
   opacity: 0;
   animation: fadeInCont 0.5s ease-in-out forwards;
@@ -46,7 +58,7 @@
 .addCategory {
   display: flex;
   gap: 10px;
-  input {
+  .inputField {
     padding: 10px;
     border: 1px solid #2c3e50;
     border-radius: 20px;
@@ -59,6 +71,7 @@
       box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
     }
   }
+
   .categoryAddButton {
     background-color: #2c3e50;
     color: #f5f7fa;
@@ -74,6 +87,21 @@
       transform: scale(1.05);
     }
   }
+}
+
+.inputError {
+  border-color: #e74c3c !important;
+  box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
+}
+
+.errorMessage {
+  color: #e74c3c;
+  font-size: 0.875rem;
+  font-family: "Inter";
+  font-weight: bold;
+  margin-top: 5px;
+  display: block;
+  animation: fadeInError 0.3s ease-in-out;
 }
 
 .modalOverlay {

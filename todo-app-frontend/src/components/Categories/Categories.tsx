@@ -2,20 +2,27 @@ import { useEffect, useState } from "react";
 import styles from "./Category.module.scss";
 import CategoryButton from "./CategoryButton";
 import { useCategoryContext } from "../../context/CategoryContext";
+import { useForm } from "react-hook-form";
 
 const Categories = () => {
   const { categories, addNewCategory } = useCategoryContext();
-  const [newCategory, setNewCategory] = useState("");
+  // const [newCategory, setNewCategory] = useState("");
   const [isMounted, setIsMounted] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<{ categoryName: string }>();
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  const handleAddCategory = async () => {
-    if (newCategory.trim() === "") return;
-    await addNewCategory(newCategory);
-    setNewCategory("");
+  const handleAddCategory = async (data: { categoryName: string }) => {
+    await addNewCategory(data.categoryName);
+    reset();
   };
 
   return (
@@ -31,20 +38,29 @@ const Categories = () => {
         ))}
       </div>
 
-      <div className={styles.addCategory}>
+      <form
+        onSubmit={handleSubmit(handleAddCategory)}
+        className={styles.addCategory}
+      >
         <input
           type="text"
           placeholder="Enter category..."
-          value={newCategory}
-          onChange={(e) => setNewCategory(e.target.value)}
+          {...register("categoryName", {
+            required: "Category name is required",
+          })}
+          className={`${styles.inputField} ${
+            errors.categoryName ? styles.inputError : ""
+          }`}
         />
-        <button
-          className={styles.categoryAddButton}
-          onClick={handleAddCategory}
-        >
+        <button type="submit" className={styles.categoryAddButton}>
           Add
         </button>
-      </div>
+      </form>
+      {errors.categoryName && (
+        <span className={styles.errorMessage}>
+          {errors.categoryName.message}
+        </span>
+      )}
     </div>
   );
 };
