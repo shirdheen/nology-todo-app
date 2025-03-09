@@ -381,3 +381,37 @@
     }
   }
 }
+
+.filterContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+
+  span {
+    font: 16px;
+    font-weight: bold;
+    color: #2c3e50;
+    font-family: "Nunito";
+  }
+
+  select {
+    padding: 8px 12px;
+    border: 1px solid #2c3e50;
+    border-radius: 8px;
+    font-family: "Inter";
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      border-color: #4a90e2;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #4a90e2;
+      box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+    }
+  }
+}

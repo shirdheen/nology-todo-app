@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   archiveTodo,
   createTodo,
@@ -22,9 +22,14 @@ const TodoList = () => {
     }[]
   >([]);
 
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+
   useEffect(() => {
-    fetchTodos().then(setTodos);
-  }, []);
+    fetchTodos(selectedCategory ?? undefined).then((data) => {
+      console.log("Filtered todos: ", data);
+      setTodos(data);
+    });
+  }, [selectedCategory]);
 
   const handleAddTodo = async (taskName: string, categoryId: number) => {
     const newTodo = await createTodo(taskName, categoryId);
@@ -53,10 +58,32 @@ const TodoList = () => {
     setTodos((prev) => [...prev, newTodo]);
   };
 
+  const handleFilterChange = async (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const categoryId = event.target.value ? Number(event.target.value) : null;
+    console.log("Selected category ID:", categoryId);
+    setSelectedCategory(categoryId);
+  };
+
   return (
     <div className={styles.todoListContainer}>
       <h2 className={styles.heading}>To Do's</h2>
+
+      <div className={styles.filterContainer}>
+        <span>Filter by: </span>
+        <select onChange={handleFilterChange} value={selectedCategory ?? ""}>
+          <option value="">All Categories</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <TodoForm onAddTodo={handleAddTodo} categories={categories} />
+
       {todos.map((todo) => (
         <TodoItem
           key={todo.id}

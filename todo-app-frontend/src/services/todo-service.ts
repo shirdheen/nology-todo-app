@@ -1,9 +1,11 @@
 const API_URL = "http://localhost:8080/todos";
 
-export const fetchTodos = async () => {
+export const fetchTodos = async (categoryId?: number) => {
   try {
-    const response = await fetch(API_URL);
+    const url = categoryId ? `${API_URL}?categoryId=${categoryId}` : API_URL;
+    const response = await fetch(url);
     if (!response.ok) throw new Error("Failed to  fetch todos");
+
     return await response.json();
   } catch (error) {
     console.error("Error fetching todos:", error);

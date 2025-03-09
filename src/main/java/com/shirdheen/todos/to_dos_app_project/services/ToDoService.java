@@ -27,6 +27,11 @@ public class ToDoService {
     }
 
     public List<ToDoDTO> getTodosByCategory(Long categoryId) {
+        boolean categoryExists = categoryRepository.existsById(categoryId);
+        if (!categoryExists) {
+            throw new RuntimeException("Category not found");
+        }
+
         return todoRepository.findByCategoryIdAndIsArchivedFalse(categoryId).stream().map(DTOMapper::toToDoDTO)
                 .collect(Collectors.toList());
     }
@@ -68,7 +73,8 @@ public class ToDoService {
     }
 
     public List<ToDoDTO> getArchivedTodosByCategory(Long categoryId) {
-        return todoRepository.findByCategoryIdAndIsArchivedTrue(categoryId).stream().map(DTOMapper::toToDoDTO).collect(Collectors.toList());
+        return todoRepository.findByCategoryIdAndIsArchivedTrue(categoryId).stream().map(DTOMapper::toToDoDTO)
+                .collect(Collectors.toList());
     }
 
 }
