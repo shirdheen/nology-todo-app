@@ -30,9 +30,14 @@ public class ToDoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ToDoDTO>> getAllTodos(@RequestParam(required = false) Long category) {
-        return category == null ? ResponseEntity.ok(todoService.getAllTodos())
-                : ResponseEntity.ok(todoService.getTodosByCategory(category));
+    public ResponseEntity<List<ToDoDTO>> getAllTodos(@RequestParam(required = false) Long categoryId) {
+        System.out.println("Received category filter: " + categoryId);
+
+        List<ToDoDTO> todos = (categoryId != null) ? todoService.getTodosByCategory(categoryId)
+                : todoService.getAllTodos();
+
+        System.out.println("Filtered todos count: " + todos.size());
+        return ResponseEntity.ok(todos);
     }
 
     @PostMapping
@@ -43,7 +48,8 @@ public class ToDoController {
     @PutMapping("/{id}")
     public ResponseEntity<ToDoDTO> updateTodo(@PathVariable Long id, @RequestBody ToDoRequestDTO requestDTO) {
         return ResponseEntity.ok(
-                todoService.updateTodo(id, requestDTO.getTaskName(), requestDTO.getCategoryId(), requestDTO.isCompleted()));
+                todoService.updateTodo(id, requestDTO.getTaskName(), requestDTO.getCategoryId(),
+                        requestDTO.isCompleted()));
     }
 
     @DeleteMapping("/{id}")
@@ -54,6 +60,7 @@ public class ToDoController {
 
     @GetMapping("/archived")
     public ResponseEntity<List<ToDoDTO>> getArchivedTodos(@RequestParam(required = false) Long category) {
-        return category == null ? ResponseEntity.ok(todoService.getArchivedTodos()) : ResponseEntity.ok(todoService.getArchivedTodosByCategory(category));
+        return category == null ? ResponseEntity.ok(todoService.getArchivedTodos())
+                : ResponseEntity.ok(todoService.getArchivedTodosByCategory(category));
     }
 }
