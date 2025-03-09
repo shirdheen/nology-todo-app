@@ -26,7 +26,12 @@ const CategoryModal = ({
   };
 
   const handleDelete = async () => {
-    await deleteCategory(category.id);
+    const result = await deleteCategory(category.id);
+    if (!result.success) {
+      alert(result.message);
+      return;
+    }
+
     onCategoryUpdated();
     onClose();
   };

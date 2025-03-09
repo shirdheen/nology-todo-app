@@ -49,8 +49,19 @@ export const deleteCategory = async (id: number) => {
     const response = await fetch(`${API_URL}/${id}`, {
       method: "DELETE",
     });
-    if (!response.ok) throw new Error("Oops, failed to delete category");
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(errorMessage || "Failed to delete category");
+    }
+
+    return { success: true };
   } catch (error) {
     console.error("Error deleting category:", error);
+
+    let errorMessage = "An unknown error has occurred";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    return { success: false, message: errorMessage };
   }
 };

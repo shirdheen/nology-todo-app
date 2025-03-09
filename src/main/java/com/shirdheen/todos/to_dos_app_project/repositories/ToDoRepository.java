@@ -18,4 +18,6 @@ public interface ToDoRepository extends JpaRepository<ToDo, Long> {
 
     List<ToDo> findByCategoryIdAndIsArchivedTrue(Long categoryId);
 
+    boolean existsByCategoryId(Long categoryId);
+
 }
