@@ -23,10 +23,21 @@ export const addCategory = async (name: string) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name }),
     });
-    if (!response.ok) throw new Error("Oops, failed to add category");
-    return await response.json();
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      return {
+        success: false,
+        message: errorMessage || "Oops, failed to add category",
+      };
+    }
+    const data = await response.json();
+    return { success: true, category: data };
   } catch (error) {
     console.error("Error adding category:", error);
+    return {
+      success: false,
+      message: (error as Error).message || "An error occurred",
+    };
   }
 };
 

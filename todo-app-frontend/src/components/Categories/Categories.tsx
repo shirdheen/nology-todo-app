@@ -8,6 +8,7 @@ const Categories = () => {
   const { categories, addNewCategory } = useCategoryContext();
   // const [newCategory, setNewCategory] = useState("");
   const [isMounted, setIsMounted] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const {
     register,
@@ -21,8 +22,15 @@ const Categories = () => {
   }, []);
 
   const handleAddCategory = async (data: { categoryName: string }) => {
-    await addNewCategory(data.categoryName);
-    reset();
+    setServerError(null);
+
+    const result = await addNewCategory(data.categoryName);
+
+    if (!result.success) {
+      setServerError(result.message || "An unexpected error has occurred");
+    } else {
+      reset();
+    }
   };
 
   return (
@@ -34,7 +42,10 @@ const Categories = () => {
       <h2 className={styles.heading}>Categories</h2>
       <div className={styles.categoryButtons}>
         {categories.map((category) => (
-          <CategoryButton key={category.id} category={category} />
+          <CategoryButton
+            key={category.id ?? category.name}
+            category={category}
+          />
         ))}
       </div>
 
@@ -49,7 +60,7 @@ const Categories = () => {
             required: "Category name is required",
           })}
           className={`${styles.inputField} ${
-            errors.categoryName ? styles.inputError : ""
+            errors.categoryName || serverError ? styles.inputError : ""
           }`}
         />
         <button type="submit" className={styles.categoryAddButton}>
@@ -60,6 +71,10 @@ const Categories = () => {
         <span className={styles.errorMessage}>
           {errors.categoryName.message}
         </span>
+      )}
+
+      {serverError && (
+        <span className={styles.errorMessage}>{serverError}</span>
       )}
     </div>
   );

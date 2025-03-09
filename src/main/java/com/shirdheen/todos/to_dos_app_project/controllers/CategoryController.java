@@ -39,9 +39,16 @@ public class CategoryController {
     }
 
     @PostMapping()
-    public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryRequestDTO request) {
-        CategoryDTO newCategory = categoryService.createCategory(request);
-        return ResponseEntity.ok(newCategory);
+    public ResponseEntity<?> createCategory(@RequestBody CategoryRequestDTO request) {
+        try {
+            CategoryDTO newCategory = categoryService.createCategory(request);
+            return ResponseEntity.ok(newCategory);
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create category.");
+        }
+       
     }
 
     @PutMapping("/{id}")

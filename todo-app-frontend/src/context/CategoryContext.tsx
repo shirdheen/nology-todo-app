@@ -8,7 +8,9 @@ interface Category {
 
 interface CategoryContextType {
   categories: Category[];
-  addNewCategory: (categoryName: string) => Promise<void>;
+  addNewCategory: (
+    categoryName: string
+  ) => Promise<{ success: boolean; message?: string }>;
   refreshCategories: () => Promise<void>;
 }
 
@@ -43,13 +45,19 @@ export const CategoryProvider = ({
   };
 
   const addNewCategory = async (categoryName: string) => {
-    if (!categoryName.trim()) return;
+    if (!categoryName.trim())
+      return { success: false, message: "Category name cannot be empty" };
     console.log("Adding new category: ", categoryName);
-    const addedCategory = await addCategory(categoryName);
+    const result = await addCategory(categoryName);
 
-    if (addedCategory) {
-      setCategories((prev) => [...prev, addedCategory]);
+    if (result.success) {
+      setCategories((prev) => [
+        ...prev,
+        { id: Date.now(), name: categoryName },
+      ]);
     }
+
+    return result;
   };
 
   return (

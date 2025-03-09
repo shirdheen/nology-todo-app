@@ -28,6 +28,11 @@ public class CategoryService {
     }
 
     public CategoryDTO createCategory(CategoryRequestDTO request) {
+        boolean categoryExists = categoryRepository.existsByName(request.getName());
+
+        if (categoryExists) {
+            throw new DataIntegrityViolationException("Category with this name already exists");
+        }
         Category category = new Category();
         category.setName(request.getName());
 

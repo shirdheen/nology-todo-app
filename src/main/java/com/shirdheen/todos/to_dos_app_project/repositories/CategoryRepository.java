@@ -11,4 +11,6 @@ import com.shirdheen.todos.to_dos_app_project.entities.Category;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long>{
     List<Category> findAllByOrderByIdAsc();
+    boolean existsByName(String name);
+    boolean existsById(Long id);
 }

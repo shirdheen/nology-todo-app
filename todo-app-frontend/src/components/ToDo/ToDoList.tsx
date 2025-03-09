@@ -86,7 +86,7 @@ const TodoList = () => {
 
       {todos.map((todo) => (
         <TodoItem
-          key={todo.id}
+          key={todo.id ?? todo.taskName}
           todo={todo}
           categories={categories}
           onArchive={handleArchiveTodo}
