@@ -25,12 +25,16 @@ import com.shirdheen.todos.to_dos_app_project.dto.category.CategoryRequestDTO;
 import com.shirdheen.todos.to_dos_app_project.dto.category.CategoryDTO;
 import com.shirdheen.todos.to_dos_app_project.entities.Category;
 import com.shirdheen.todos.to_dos_app_project.repositories.CategoryRepository;
+import com.shirdheen.todos.to_dos_app_project.repositories.ToDoRepository;
 import com.shirdheen.todos.to_dos_app_project.services.CategoryService;
 
 public class CategoryServiceTest {
 
     @Mock
     private CategoryRepository categoryRepository;
+
+    @Mock
+    private ToDoRepository todoRepository;
 
     @InjectMocks
     private CategoryService categoryService;

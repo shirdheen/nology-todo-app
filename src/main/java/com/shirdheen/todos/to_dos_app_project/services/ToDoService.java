@@ -3,6 +3,7 @@ package com.shirdheen.todos.to_dos_app_project.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.shirdheen.todos.to_dos_app_project.dto.DTOMapper;
@@ -29,7 +30,7 @@ public class ToDoService {
     public List<ToDoDTO> getTodosByCategory(Long categoryId) {
         boolean categoryExists = categoryRepository.existsById(categoryId);
         if (!categoryExists) {
-            throw new RuntimeException("Category not found");
+            throw new RuntimeException("Category not found.");
         }
 
         return todoRepository.findByCategoryIdAndIsArchivedFalse(categoryId).stream().map(DTOMapper::toToDoDTO)
@@ -37,8 +38,12 @@ public class ToDoService {
     }
 
     public ToDoDTO createTodo(String taskName, Long categoryId) {
+        if (taskName == null || taskName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Task name cannot be empty.");
+        }
+
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new DataIntegrityViolationException("Category not found."));
 
         ToDo todo = new ToDo(taskName, category);
         todoRepository.save(todo);
@@ -48,12 +53,16 @@ public class ToDoService {
     public ToDoDTO updateTodo(Long id, String taskName, Long categoryId, boolean completed) {
         ToDo todo = todoRepository.findById(id).orElseThrow(() -> new RuntimeException("ToDo not found."));
 
+        if (taskName == null || taskName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Task name cannot be empty.");
+        }
+
         todo.setTaskName(taskName);
         todo.setCompleted(completed);
 
         if (categoryId != null) {
             Category category = categoryRepository.findById(categoryId)
-                    .orElseThrow(() -> new RuntimeException("Category not found"));
+                    .orElseThrow(() -> new DataIntegrityViolationException("Category not found"));
             todo.setCategory(category);
         }
 
@@ -73,6 +82,10 @@ public class ToDoService {
     }
 
     public List<ToDoDTO> getArchivedTodosByCategory(Long categoryId) {
+        boolean categoryExists = categoryRepository.existsById(categoryId);
+        if (!categoryExists) {
+            throw new RuntimeException("Category not found.");
+        }
         return todoRepository.findByCategoryIdAndIsArchivedTrue(categoryId).stream().map(DTOMapper::toToDoDTO)
                 .collect(Collectors.toList());
     }

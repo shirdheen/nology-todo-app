@@ -56,7 +56,7 @@ public class CategoryService {
         
         boolean isCategoryInUse = todoRepository.existsByCategoryId(id);
         if (isCategoryInUse) {
-            throw new DataIntegrityViolationException("Cannot delete cateory. It is assigned to existing Todos.");
+            throw new DataIntegrityViolationException("Cannot delete category. It is assigned to existing Todos.");
         }
 
         categoryRepository.delete(category);

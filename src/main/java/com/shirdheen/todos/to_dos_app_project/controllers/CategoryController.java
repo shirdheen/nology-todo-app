@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/categories")
@@ -32,9 +31,13 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> getAllCategories() {
-        List<CategoryDTO> categories = categoryService.getAllCategories();
-        return ResponseEntity.ok(categories);
+    public ResponseEntity<?> getAllCategories() {
+        try {
+            List<CategoryDTO> categories = categoryService.getAllCategories();
+            return ResponseEntity.ok(categories);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve categories.");
+        }
 
     }
 
@@ -48,13 +51,20 @@ public class CategoryController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create category.");
         }
-       
+
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, @RequestBody CategoryRequestDTO request) {
-        CategoryDTO updatedCategory = categoryService.updateCategory(id, request);
-        return ResponseEntity.ok(updatedCategory);
+    public ResponseEntity<?> updateCategory(@PathVariable Long id, @RequestBody CategoryRequestDTO request) {
+        try {
+            CategoryDTO updatedCategory = categoryService.updateCategory(id, request);
+            return ResponseEntity.ok(updatedCategory);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update category.");
+        }
+      
     }
 
     @DeleteMapping("/{id}")
@@ -64,6 +74,10 @@ public class CategoryController {
             return ResponseEntity.ok("Category deleted successfully.");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete category.");
         }
     }
 
