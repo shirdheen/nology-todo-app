@@ -29,10 +29,84 @@ The To-Do App is a task management tool that allows users to create, update, cat
 - Spring Boot (Java 21) - For creating the API
 - Spring Data JPA - For database interaction
 - Spring Validation - For request validation
-- Exception Handling = Customer error responses
+- Exception Handling - Customer error responses
 - Mockito & JUnit - For unit testing
 
 ### Database
 
 - MySQL - Stores user tasks and categories
 - Hibernate (JPA) - Manages entity relationships
+
+---
+
+## Features
+
+### Task Management
+
+- Create, update, and archive tasks
+- Set tasks as completed
+- Categorised tasks for better organisation
+
+### Category-based filtering
+
+- Filter tasks based on category
+- Dropdown selector to view tasks by category
+- Prevent deletion of categories linked to tasks
+
+### Error handling and validations
+
+- Frontend validation using React Hook Form
+- Backend validation for empty fields and duplicates
+- Custom error messages for failed operations
+
+### Robust backend
+
+- Spring Boot REST API
+- DTOs and Service Layer for clean architecture
+- Exception handling with structured error responses
+
+---
+
+## Project Setup
+
+### 1. Clone the repository
+
+```bash
+git clone git@github.com:shirdheen/nology-todo-app.git
+```
+
+### 2. Create a .env file
+
+```properties
+DB_NAME=todos_db
+MYSQL_USER=root
+MYSQL_PASS=your_password
+```
+
+### 3. Build and run backend
+
+```bash
+mvn clean install
+mvn spring-boot:run
+```
+
+Server starts at **http://localhost:8080**
+
+### 4. Install dependencies for frontend
+
+```bash
+cd todo-app-frontend
+npm install
+```
+
+### 5. Start React App
+
+```bash
+npm run dev
+```
+
+Client runs at **http://localhost:5173**
+
+---
+
+## API Endpoints
