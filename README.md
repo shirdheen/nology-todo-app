@@ -18,30 +18,30 @@ The To-Do App is a task management tool that allows users to create, update, cat
 
 ### Frontend
 
-- React (Typescript) - For building a dynamic UI
-- React Hook Form - For form validation
-- Context API - For managing global state
-- SCSS (Modules) - For component-based styling
-- Fetch API - For making API requests
+- **React (Typescript)** - For building a dynamic UI
+- **React Hook Form** - For form validation
+- **Context API** - For managing global state
+- **SCSS (Modules)** - For component-based styling
+- **Fetch API** - For making API requests
 
 ### Backend
 
-- Spring Boot (Java 21) - For creating the API
-- Spring Data JPA - For database interaction
-- Spring Validation - For request validation
-- Exception Handling - Customer error responses
-- Mockito & JUnit - For unit testing
+- **Spring Boot (Java 21)** - For creating the API
+- **Spring Data JPA** - For database interaction
+- **Spring Validation** - For request validation
+- **Exception Handling** - Customer error responses
+- **Mockito & JUnit** - For unit testing
 
 ### Database
 
-- MySQL - Stores user tasks and categories
-- Hibernate (JPA) - Manages entity relationships
+- **MySQL** - Stores user tasks and categories
+- **Hibernate (JPA)** - Manages entity relationships
 
 ---
 
 ## Features
 
-### Task Management
+### Task management
 
 - Create, update, and archive tasks
 - Set tasks as completed
