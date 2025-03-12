@@ -26,6 +26,7 @@ const CategoryModal = ({
   };
 
   const handleDelete = async () => {
+    console.log("Attempting to delete category ID:", category.id);
     const result = await deleteCategory(category.id);
     if (!result.success) {
       alert(result.message);

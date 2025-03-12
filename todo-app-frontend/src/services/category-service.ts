@@ -30,8 +30,8 @@ export const addCategory = async (name: string) => {
         message: errorMessage || "Oops, failed to add category",
       };
     }
-    const data = await response.json();
-    return { success: true, category: data };
+    const category = await response.json();
+    return { success: true, category };
   } catch (error) {
     console.error("Error adding category:", error);
     return {
