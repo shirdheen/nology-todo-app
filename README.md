@@ -113,19 +113,39 @@ Client runs at **http://localhost:5173**
 
 ### Tasks API
 
-| Method | Endpoint               | Description                  |
-| ------ | ---------------------- | ---------------------------- |
-| GET    | /todos                 | Fetch all todos              |
-| POST   | /todos                 | Create a new task            |
-| PUT    | /todos/{id}            | Update a task                |
-| DELETE | /todos/{id}            | Archive a task (soft-delete) |
-| GET    | /todos?categoryId={id} | Fetch todos by category      |
+| **Method** | **Endpoint**           | **Description**              |
+| ---------- | ---------------------- | ---------------------------- |
+| GET        | /todos                 | Fetch all todos              |
+| POST       | /todos                 | Create a new task            |
+| PUT        | /todos/{id}            | Update a task                |
+| DELETE     | /todos/{id}            | Archive a task (soft-delete) |
+| GET        | /todos?categoryId={id} | Fetch todos by category      |
 
 ### Categories API
 
-| Method | Endpoint         | Description                      |
-| ------ | ---------------- | -------------------------------- |
-| GET    | /categories      | Fetch all categories             |
-| POST   | /categories      | Create a new category            |
-| PUT    | /categories/{id} | Update category                  |
-| DELETE | /categories/{id} | Delete category (only if unused) |
+| **Method** | **Endpoint**     | **Description**                  |
+| ---------- | ---------------- | -------------------------------- |
+| GET        | /categories      | Fetch all categories             |
+| POST       | /categories      | Create a new category            |
+| PUT        | /categories/{id} | Update category                  |
+| DELETE     | /categories/{id} | Delete category (only if unused) |
+
+---
+
+## Testing the Application
+
+### Backend Tests (JUnit and Mockito)
+
+```bash
+mvn test
+```
+
+- Unit Tests: Service layer validation
+
+### API Testing (Postman)
+
+Here are some example tests that can be performed to test the API:
+
+1. GET /todos → Fetches all tasks
+2. POST /todos → Create a task with `{"taskName: "New task", "categoryId" : 1 }`
+3. DELETE /categories/{id} → Expect error if the category is in use
