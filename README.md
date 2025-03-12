@@ -110,3 +110,22 @@ Client runs at **http://localhost:5173**
 ---
 
 ## API Endpoints
+
+### Tasks API
+
+| Method | Endpoint               | Description                  |
+| ------ | ---------------------- | ---------------------------- |
+| GET    | /todos                 | Fetch all todos              |
+| POST   | /todos                 | Create a new task            |
+| PUT    | /todos/{id}            | Update a task                |
+| DELETE | /todos/{id}            | Archive a task (soft-delete) |
+| GET    | /todos?categoryId={id} | Fetch todos by category      |
+
+### Categories API
+
+| Method | Endpoint         | Description                      |
+| ------ | ---------------- | -------------------------------- |
+| GET    | /categories      | Fetch all categories             |
+| POST   | /categories      | Create a new category            |
+| PUT    | /categories/{id} | Update category                  |
+| DELETE | /categories/{id} | Delete category (only if unused) |
