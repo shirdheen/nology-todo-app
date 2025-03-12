@@ -50,11 +50,8 @@ export const CategoryProvider = ({
     console.log("Adding new category: ", categoryName);
     const result = await addCategory(categoryName);
 
-    if (result.success) {
-      setCategories((prev) => [
-        ...prev,
-        { id: Date.now(), name: categoryName },
-      ]);
+    if (result.success && result.category) {
+      setCategories((prev) => [...prev, result.category]);
     }
 
     return result;

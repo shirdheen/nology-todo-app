@@ -4,7 +4,7 @@ import {
   updateCategory,
 } from "../../services/category-service";
 import styles from "./Category.module.scss";
-import ReactDOM from "react-dom";
+import Modal from "../../subcomponents/Modal/Modal";
 
 interface ModalProps {
   category: { id: number; name: string };
@@ -26,6 +26,7 @@ const CategoryModal = ({
   };
 
   const handleDelete = async () => {
+    console.log("Attempting to delete category ID:", category.id);
     const result = await deleteCategory(category.id);
     if (!result.success) {
       alert(result.message);
@@ -36,30 +37,28 @@ const CategoryModal = ({
     onClose();
   };
 
-  return ReactDOM.createPortal(
-    <div className={styles.modalOverlay}>
-      <div className={styles.modalContent}>
-        <h3 className={styles.modalHeading}>Edit Category</h3>
-        <input
-          type="text"
-          value={newName}
-          onChange={(e) => setNewName(e.target.value)}
-          className={styles.modalInput}
-        />
-        <div className={styles.modalActions}>
+  return (
+    <Modal
+      title="Edit Category"
+      onClose={onClose}
+      actions={
+        <>
           <button onClick={handleUpdate} className={styles.saveButton}>
             Save
           </button>
           <button onClick={handleDelete} className={styles.deleteButton}>
             Delete
           </button>
-          <button onClick={onClose} className={styles.cancelButton}>
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>,
-    document.body
+        </>
+      }
+    >
+      <input
+        type="text"
+        value={newName}
+        onChange={(e) => setNewName(e.target.value)}
+        className={styles.modalInput}
+      />
+    </Modal>
   );
 };
 

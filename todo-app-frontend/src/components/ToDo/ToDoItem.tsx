@@ -28,13 +28,13 @@ const TodoItem = ({
   onDuplicate,
 }: TodoItemProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(todo.category);
+  const selectedCategory =
+    categories.find((c) => c.id === todo.category.id) ?? todo.category;
   const [completed, setcompleted] = useState(todo.completed ?? false);
 
   useEffect(() => {
-    setSelectedCategory(todo.category);
     setcompleted(todo.completed ?? false);
-  }, [todo.category, todo.completed]);
+  }, [todo.completed]);
 
   const handleCheckboxChange = () => {
     const newCompletedStatus = !completed;
@@ -83,10 +83,6 @@ const TodoItem = ({
           onClose={() => setIsModalOpen(false)}
           onUpdate={(id, taskName, categoryId, completed) => {
             onUpdate(id, taskName, categoryId, completed);
-            const updatedCategory = categories.find((c) => c.id === categoryId);
-            if (updatedCategory) {
-              setSelectedCategory(updatedCategory);
-            }
           }}
         />
       )}
