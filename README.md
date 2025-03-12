@@ -14,6 +14,10 @@ The To-Do App is a task management tool that allows users to create, update, cat
 
 ---
 
+## Kanban Board
+
+![Kanban board](./images/2025-03-12%20-%2014_49_26%20-%20Nology%20-%20To-Do%20App%20Project%20_%20Trello.png)
+
 ## Tech Stack
 
 ### Frontend
