@@ -140,7 +140,7 @@ Client runs at **http://localhost:5173**
 mvn test
 ```
 
-- Unit Tests: Service layer validation
+- **Unit Tests**: Service layer validation
 
 ### API Testing (Postman)
 
@@ -149,3 +149,11 @@ Here are some example tests that can be performed to test the API:
 1. GET /todos → Fetches all tasks
 2. POST /todos → Create a task with `{"taskName: "New task", "categoryId" : 1 }`
 3. DELETE /categories/{id} → Expect error if the category is in use
+
+---
+
+## Future Enhancements
+
+- **Deployment on AWS (EC2)**
+- **Drag and drop UI** - Move tasks between categories
+- **Due dates and notifications** - Set deadlines and reminders

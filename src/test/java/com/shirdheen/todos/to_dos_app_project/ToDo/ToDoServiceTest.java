@@ -3,6 +3,7 @@ package com.shirdheen.todos.to_dos_app_project.ToDo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -72,16 +73,50 @@ public class ToDoServiceTest {
     }
 
     @Test
+    void testCreateTodo_InvalidCategory() {
+        when(categoryRepository.findById(2L)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            toDoService.createTodo("New task", 2L);
+        });
+
+        assertEquals("Category not found.", exception.getMessage());
+    }
+
+    @Test
     void testUpdateTodo() {
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(sampleCategory));
         when(toDoRepository.findById(1L)).thenReturn(Optional.of(sampleToDo));
         when(toDoRepository.save(any(ToDo.class))).thenReturn(sampleToDo);
-        
+
         ToDoDTO updatedTodo = toDoService.updateTodo(1L, "Updated task", 1L, true);
 
         assertNotNull(updatedTodo);
         assertEquals("Updated task", updatedTodo.getTaskName());
         assertTrue(updatedTodo.isCompleted());
+    }
+
+    @Test
+    void testUpdateTodo_NotFound() {
+        when(toDoRepository.findById(99L)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            toDoService.updateTodo(99L, "Task", 1L, true);
+        });
+
+        assertEquals("ToDo not found.", exception.getMessage());
+    }
+
+    @Test
+    void testUpdateTodo_InvalidCategory() {
+        when(toDoRepository.findById(1L)).thenReturn(Optional.of(sampleToDo));
+        when(categoryRepository.findById(99L)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            toDoService.updateTodo(1L, "Task", 99L, true);
+        });
+
+        assertEquals("Category not found", exception.getMessage());
     }
 
     @Test
@@ -93,5 +128,16 @@ public class ToDoServiceTest {
         assertTrue(sampleToDo.isArchived(), "Todo should be marked as archived");
 
         verify(toDoRepository, times(1)).save(sampleToDo);
+    }
+
+    @Test
+    void testArchiveTodo_NotFound() {
+        when(toDoRepository.findById(99L)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            toDoService.archiveTodo(99L);
+        });
+
+        assertEquals("Todo not found", exception.getMessage());
     }
 }

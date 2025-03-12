@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import com.shirdheen.todos.to_dos_app_project.dto.category.CategoryRequestDTO;
 import com.shirdheen.todos.to_dos_app_project.dto.category.CategoryDTO;
@@ -81,6 +82,16 @@ public class CategoryServiceTest {
     }
 
     @Test
+    void testCreateCategory_DuplicateName() {
+        when(categoryRepository.save(any(Category.class))).thenThrow(new DataIntegrityViolationException("Duplicate category name"));
+
+        DataIntegrityViolationException exception = assertThrows(DataIntegrityViolationException.class, () -> categoryService.createCategory(sampleRequestDTO));
+
+        assertEquals("Duplicate category name", exception.getMessage());
+        verify(categoryRepository, times(1)).save((any(Category.class)));
+    }
+
+    @Test
     void testUpdatedCategory_Found() {
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(sampleCategory));
         when(categoryRepository.save(any(Category.class))).thenReturn(sampleCategory);
@@ -93,11 +104,22 @@ public class CategoryServiceTest {
         verify(categoryRepository, times(1)).save(sampleCategory);
     }
 
-    @Test
-    void testUpdatedCategory_NotFound() {
-        when(categoryRepository.findById(99L)).thenReturn(Optional.empty());
+    // @Test
+    // void testUpdatedCategory_NotFound() {
+    //     when(categoryRepository.findById(99L)).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> categoryService.updateCategory(99L, sampleRequestDTO));
+    //     assertThrows(RuntimeException.class, () -> categoryService.updateCategory(99L, sampleRequestDTO));
+    //     verify(categoryRepository, times(1)).findById(99L);
+    //     verify(categoryRepository, never()).save(any(Category.class));
+    // }
+
+    @Test
+    void testUpdateCategory_InvalidId() {
+        when (categoryRepository.findById(99L)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> categoryService.updateCategory(99L, sampleRequestDTO));
+
+        assertEquals("Sorry, category not found", exception.getMessage());
         verify(categoryRepository, times(1)).findById(99L);
         verify(categoryRepository, never()).save(any(Category.class));
     }
@@ -114,12 +136,37 @@ public class CategoryServiceTest {
     }
 
     @Test
+    void testDeleteCategory_InUse() {
+        when(categoryRepository.findById(1L)).thenReturn(Optional.of(sampleCategory));
+        when(todoRepository.existsByCategoryId(1L)).thenReturn(true);
+
+        DataIntegrityViolationException exception = assertThrows(DataIntegrityViolationException.class, () -> categoryService.deleteCategory(1L));
+
+        assertEquals("Cannot delete category. It is assigned to existing Todos.", exception.getMessage());
+        verify(categoryRepository, times(1)).findById(1L);
+        verify(todoRepository, times(1)).existsByCategoryId(1L);
+        verify(categoryRepository, never()).delete(any(Category.class));
+    }
+
+    @Test
     void testDeleteCategory_NotFound() {
         when(categoryRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> categoryService.deleteCategory(99L));
-        verify(categoryRepository, times(1)).findById(99L);
-        verify(categoryRepository, never()).delete(any(Category.class));
+
+        verify(categoryRepository, times(1)).findById(99L); // findById is called once
+
+        verify(categoryRepository, never()).delete(any(Category.class)); // Verifies that delete() was not executed by mistake (helps to catch bugs where deletion is attempted on invalid data)
+    }
+
+    @Test
+    void testGetAllCategories_Exception() {
+        when(categoryRepository.findAllByOrderByIdAsc()).thenThrow(new RuntimeException("Database error"));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> categoryService.getAllCategories());
+
+        assertEquals("Database error", exception.getMessage());
+        verify(categoryRepository, times(1)).findAllByOrderByIdAsc();
     }
 
 }
