@@ -160,6 +160,5 @@ Here are some example tests that can be performed to test the API:
 
 ## Future Enhancements
 
-- **Deployment on AWS (EC2)**
 - **Drag and drop UI** - Move tasks between categories
 - **Due dates and notifications** - Set deadlines and reminders
