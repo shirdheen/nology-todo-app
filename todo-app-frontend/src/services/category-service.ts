@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/categories";
+const API_URL = "https://nology-todo-app.onrender.com/categories";
 
 export const fetchCategories = async () => {
   const response = await fetch(API_URL);
