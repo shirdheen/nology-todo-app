@@ -3,14 +3,13 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 
 COPY pom.xml .
+
+RUN apt update && apt install -y maven && mvn dependency:go-offline
+
 COPY src ./src
 
-RUN apt update && apt install -y maven && mvn clean package -DskipTests
+RUN mvn clean package -DskipTests
 
-RUN mkdir -p target
-
-COPY target/*.jar app.jar
+CMD ["sh", "-c", "java -jar target/*.jar"]
 
 EXPOSE 8080
-
-CMD ["java", "-jar", "app.jar"];
