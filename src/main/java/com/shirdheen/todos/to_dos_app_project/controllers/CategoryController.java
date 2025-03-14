@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://shirdheen.github.io/nology-todo-app/")
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
