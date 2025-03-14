@@ -1,7 +1,0 @@
-CREATE DATABASE todos_db;
-
-SHOW DATABASES;
-USE todos_db;
-SHOW TABLES;
-DESCRIBE todos;
-DESCRIBE categories;
